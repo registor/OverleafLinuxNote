@@ -7,10 +7,11 @@
 \newif\ifLinuxProcess
 \newif\ifLinuxMemory
 \newif\ifLinuxIO
-\newif\ifLinuxOther
+\newif\ifLinuxLock
 \attachpdffilefalse  %false 控制编译时不添加 视频附件
 %\attachpdffiletrue  %true 添加 视频附件
-\LinuxProcesstrue
+%\LinuxProcesstrue
+\LinuxLocktrue
 
 
 \wdtexbooktheme{bodie} %
@@ -70,6 +71,9 @@
 \input{reference.tex}
 \fi
 
+\ifLinuxLock
+\input{LinuxLock.tex}
+\fi
 
 %====== be sure to add this part ====%
 %\addtocontents{toc}{\protect\end{multicols}}
