@@ -1,5 +1,81 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% !TEX program = xelatex
+% !Mode:: "TeX:UTF-8"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{mactexbook}
+\newif\ifattachpdffile
+\newif\ifLinuxProcess
+\newif\ifLinuxMemory
+\newif\ifLinuxIO
+\newif\ifLinuxOther
+\attachpdffilefalse  %false 控制编译时不添加 视频附件
+%\attachpdffiletrue  %true 添加 视频附件
+\LinuxProcesstrue
+
+
+\wdtexbooktheme{bodie} %
+\wdtexbookcolor{green} % green, violet, print
+\ifattachpdffile
+\wdtitle{wangfan的Linux进程笔记--完整版}
+%\wdedition{\href{https://github.com/wangfanstar/LinuxProcessNote}{\LaTeX}\quad \href{https://www.wangfanstar.top/categories/宋宝华/}{Web}\quad}
+\wdedition{20180522}
+\else
+\wdtitle{wangfan的Linux进程笔记--精简版}
+\wdedition{20180522}
+\fi
+\wdfirstauthor{linux 进程管理 -- 宋宝华}
+\wdfirstinstitute{}
+\wdsecondauthor{wangfanstar@163.com}
+\wdsecondinstitute{}
+%\wdsecondinstitute{\today}
+\wdthirdauthor{\today}
+\wdthirdinstitute{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{myformat.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
-(Type your content here.)
+\wdmaketitle
+
+\shorttoc{目录大纲}{0}
+
+\tableofcontents
+
+%====== be sure to add this part ====%
+\switchgeometry
+\wdstartdoc
+% \addtocontents{toc}{\protect\begin{multicols}{2}}
+% \setcounter{page}{1}
+% \renewcommand{\thepage}{\arabic{page}}
+% ====== be sure to add this part ====%
+
+\newcommand{\videoattach}[3]
+{\ifattachpdffile
+\textattachfile{#1}{\textcolor[rgb]{0.00,0.00,0.55}{\textbf{#2}}}
+\else
+{\heiti{#2链接：}}\url{#3}
+\fi
+}
+%\renewcommand{\textbf}[1]{\heiti{#1}}
+
+\ifLinuxProcess
+\input{Abstract.tex}
+\input{lesson1.tex}
+\input{lesson2.tex}
+\input{lesson3.tex}
+\input{lesson4.tex}
+\input{FAQ.tex}
+\input{reference.tex}
+\fi
+
+
+%====== be sure to add this part ====%
+%\addtocontents{toc}{\protect\end{multicols}}
+\wdenddoc
+%====== be sure to add this part ====%
+
+%\enddoc
+
 \end{document}

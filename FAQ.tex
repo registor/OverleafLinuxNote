@@ -1,0 +1,81 @@
+
+
+\partabstractfp{}
+\partabstractrp{}
+\partabstractlettrine{F}{AQ，本章记录课间和课后宋老师以及同学们答疑} % the first word of the abstract
+
+\part{进程问题集锦}
+
+\chapter{课后答疑}
+
+
+~\\以下问题为宋老师在微信答疑群中回答记录，微信群问题不定期提出，此部分内容会随之更新。
+\begin{enumerate}
+  \item
+\begin{tcolorbox}[colback=green!5,colframe=green!75!black]
+\heiti{Q: rps后，非多队列网卡，中断会再给每个核发中断来派发软中断？}
+\tcblower
+A: 中断只发一个core，这个core自己给别的core发核间中断
+\end{tcolorbox}
+
+  \item
+\begin{tcolorbox}[colback=green!5,colframe=green!75!black]
+\heiti{Q: rt补丁，是不是只有RT\_FULL支持优先级反转？}
+\tcblower
+A: 不是，不需要rt补丁就支持优先级继承，早就Merge到了mainline。\\
+不叫支持优先级反转，反转是个问题，继承是解决它的方法。反转是个现象，不存在支持不支持。\\
+你的问题是错误的。
+\end{tcolorbox}
+
+
+  \item
+\begin{tcolorbox}[colback=green!5,colframe=green!75!black]
+\heiti{Q: 所以softirq的优先级都是相同的吗？}
+\tcblower
+A: 不是的，它是一个bit的设置，检查哪个bit被设置，肯定是有先后顺序。挨个检查哪个bit的。不过这个不是关键点。你关心延迟的实时性的时候，你根本就消灭了softirq.
+\end{tcolorbox}
+
+  \item
+\begin{tcolorbox}[colback=green!5,colframe=green!75!black]
+\heiti{Q: 内核管理多核好理解，但内核如何管理多CPU？}
+\tcblower
+A: 异构多os和Linux没关系，那是多os之间的问题，不是Linux管理范畴，几个OS一个通信方法即可。
+\end{tcolorbox}
+
+  \item
+\begin{tcolorbox}[colback=green!5,colframe=green!75!black]
+\heiti{Q: cfs调度单位是task\_struct，那像HMP EAS这些调度器单位是什么？}
+\tcblower
+A: 调度单元与调度算法无关，你说的调度器和我们说的调度器不一定是一个意思。调度单元就算线程。这个不以任何操作系统，任何算法为转移。
+\end{tcolorbox}
+
+
+  \item
+\begin{tcolorbox}[colback=green!5,colframe=green!75!black]
+\heiti{Q: 课上说多核可以运行rtos+linux，那是不是单核各自运行一个OS，如何实现，是启动linux后，再启动rtos运行到某个核吗 ？}
+\tcblower
+A: 多个core单独各玩各的，谁先启动没有讲究，取决于产品，这个和linux没有关系，两个CPU各自运行自己的一套软件。你直接想象成两个电脑就好了。
+\end{tcolorbox}
+
+
+
+  \item
+\begin{tcolorbox}[colback=green!5,colframe=green!75!black]
+\heiti{Q: rt的Linux如何对付内存的lazy问题？能否改用内核的api解决用户态内存申请的实时性问题。}
+\tcblower
+A: 内核和用户态都是用相同的算法来进行调度，内核的调度没有比用户态更优越，用户态的调度策略和优先级比内核高时也可以抢占内核的。内存方面lazy有它的解法，主要是先申请malloc，立即释放，稳住堆；提前调用一个很大的临时变量的函数，稳住栈；提前把线程都创建；mlockall屏蔽交换。这些都有套路，看文档即可。
+\end{tcolorbox}
+
+
+
+  \item
+\begin{tcolorbox}[colback=green!5,colframe=green!75!black]
+\hei{Q: 有人说一但调用了\_\_do\_softirq，这个函数不可抢占，这种说法是否正确？}
+\tcblower
+A: 该怎么抢怎么抢，该抢的你让它抢，你只需保证抢了后的数据不出错即可。别的核还是可以访问你的核正在访问的数据的，tasklet里面该加的锁就得加。保护数据而不是保护过程。
+\end{tcolorbox}
+\end{enumerate}
+
+%%% Local Variables:
+%%% TeX-master: "main"
+%%% End:
