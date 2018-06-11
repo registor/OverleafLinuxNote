@@ -243,6 +243,8 @@ TSWLatexianTemp*
 
 # big pdfattachfile
 *.avi
+*.atfi
+*.ptc
 main.pdf
 wangfan的linux进程笔记精简版.pdf
 wangfan的linux进程笔记完整版.pdf
