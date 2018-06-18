@@ -7,6 +7,7 @@
 \chapter{Linux锁的种类及用法}
 
 \section{语义整体：atmoic的用法}
+\subsection{用atmoic定义变量的的原因}
 
 \section{锁：spin\_lock关调度}
 
@@ -15,6 +16,25 @@
 \section{信号量：mutex调度睡眠}
 
 \section{万能Linux锁用法}
+锁的使用，主要是会了防止线程与线程，线程与中断，中断与中断之间的竞争，保护临界资源。如何正确地使用锁可以达到保护临界资源的目的呢。
+我们先总结归纳下竞争的类型：
+\begin{itemize}
+  \item 核内竞争：\begin{enumerate}
+               \item 核内线程与核内线程
+               \item 核内线程与核内中断               
+             \end{enumerate}
+  \item 核间竞争：\begin{enumerate}
+               \item 核间线程与核间线程
+               \item 核间线间与核间中断
+               \item 核间中断与核间中断
+             \end{enumerate}
+\end{itemize}
+Linux锁的种类有如下几种：
+\begin{itemize}
+  \item 关闭抢占
+  \item 关闭中断
+  \item 不关闭抢占与中断，用信号量调度
+\end{itemize}
 
 \section{死锁检测}
 
