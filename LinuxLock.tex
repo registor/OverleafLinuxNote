@@ -1,20 +1,33 @@
-\partabstractfp{主要用于临界区的访问atmoic,spin\_lock, spin\_lock\_save}
-\partabstractrp{\hei{锁}}
-\partabstractlettrine{锁}{是Linux中重要的一部分} % the first word of the abstract
 
+\partabstractlettrine{锁}{在这章范指代码中的一些特殊标记\\} % the first word of the abstract
+
+\partabstractfp{~\\在没有标记的代码运行过程中，会遇到如下问题导致代码运行与预期不同：\\
+1、编译器优化导致汇编码顺序不一致\\
+2、CPU并发和乱序执行导致执行顺序不一致\\
+3、调度器调度导致重入\\
+4、中断抢占导致重入}
+\partabstractrp{为了解决这些问题，就在程序里面针对不同的情况加上不同的标记，在这章称为锁，信号量，原子操作，内存屏障等等，其作用就是提示编译器和CPU看到这些标记后就不要进行优化乱序等操作，让代码我们想要的顺序执行。防止优化和并发导致的乱序和变量修改不一致}
 \part{Linux内核锁}
 
-\chapter{Linux锁的种类及用法}
+\chapter{Linux锁的种类}
+在多核多线程共享变量时，需要对变量作特殊处理防止因以下原因导致程序不按
 
 \section{语义整体：atmoic的用法}
-\subsection{用atmoic定义变量的的原因}
+atmoic处理的是一个整形变量
 
 \section{锁：spin\_lock关调度}
 
 \section{中断：irq\_disable关中断}
 
-\section{信号量：mutex调度睡眠}
-
+\section{信号量}
+信号量和锁的区别是信号量可以睡眠。
+\subsection{普通信号量}
+当代码拿到普通信号量时，其他流程只能等待其释放后再进入临界区进行修改。
+\subsection{读写信号量}
+读信号量可以允许多个读者同时读，写信号量只有在读者为0的时候才能进行修改。
+\subsection{mutex互斥信号量}
+互斥信号量在功能上和计数为1的普通信号量一样，之所以增加一个互斥信号量是因为效率上互斥信号量比普通信号量更高一些。
+\chapter{Linux锁的使用}
 \section{万能Linux锁用法}
 锁的使用，主要是会了防止线程与线程，线程与中断，中断与中断之间的竞争，保护临界资源。如何正确地使用锁可以达到保护临界资源的目的呢。
 我们先总结归纳下竞争的类型：
@@ -38,4 +51,8 @@ Linux锁的种类有如下几种：
 
 \section{死锁检测}
 
+\chapter{Linux 并发处理的宏,关键字}
+\section{编译优化禁止：慎（不）用volatile}
+
+\section{顺序一致性(编译,cpu禁优化)：内存屏障}
 \chapter{Linux锁答疑}
